@@ -6,12 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "example")
-public class ExampleEntity {
-
+@Table(name = "redzone")
+public class RedZoneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,7 +20,10 @@ public class ExampleEntity {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "data")
+    @Column(name = "descricao")
+    private String descricao;
+
+    @Column(name = "data_cadastro")
     private LocalDateTime data;
 
     public Long getId() {
@@ -37,6 +40,14 @@ public class ExampleEntity {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public LocalDateTime getData() {
