@@ -13,41 +13,39 @@ import java.util.Optional;
 public class EntradaRedZoneController {
 
     @Autowired
-    private EntradaRedZoneService redZoneserv;
+    private EntradaRedZoneService serv;
 
     @GetMapping
-    public List<EntradaRedZoneService> getAll() {
-        return redZoneserv.
+    public List<EntradaRedZoneEntity> getAll() {
+        return serv.getAll();
     }
 
     @PostMapping
-    public EntradaRedZoneService insert(@RequestBody EntradaRedZoneService data) {
-        return redZoneserv.insert(data);
+    public EntradaRedZoneEntity insert(@RequestBody EntradaRedZoneEntity data) {
+        return serv.insert(data);
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<EntradaRedZoneService> getById(@PathVariable("id") Long id) {
-        return redZoneserv.getById(id);
+    public Optional<EntradaRedZoneEntity> getById(@PathVariable("id") Long id) {
+        return serv.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
-    public Optional<EntradaRedZoneService> deleteById(@PathVariable("id") Long id) {
-        Optional<EntradaRedZoneService> data = redZoneserv.getById(id);
+    public Optional<EntradaRedZoneEntity> deleteById(@PathVariable("id") Long id) {
+        Optional<EntradaRedZoneEntity> data = serv.getById(id);
         if (data.isEmpty())
             return null;
-
-        redZoneserv.delete(data.get());
-
+        serv.delete(data.get());
         return data;
     }
 
     @PutMapping(value = "/{id}")
-    public EntradaRedZoneService update(@PathVariable("id") Long id, @RequestBody EntradaRedZoneService updatedEntity) {
-        Optional<EntradaRedZoneService> existingEntity = redZoneserv.getById(id);
+    public EntradaRedZoneEntity update(@PathVariable("id") Long id, @RequestBody EntradaRedZoneEntity updatedEntity) {
+        Optional<EntradaRedZoneEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
             return null;
         }
         updatedEntity.setId(id);
-        return redZoneserv.update(id, updatedEntity);
+        return serv.update(id, updatedEntity);
     }
 }

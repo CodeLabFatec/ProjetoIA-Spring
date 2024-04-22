@@ -13,33 +13,32 @@ import jakarta.persistence.EntityNotFoundException;
 public class EntradaRedZoneService {
 
     @Autowired
-    private EntradaRedZoneRepository entradaRedZoneRepository;
+    private EntradaRedZoneRepository repo;
 
     public List<EntradaRedZoneEntity> getAll() {
-        return entradaRedZoneRepository.findAll();
+        return repo.findAll();
     }
 
     public Optional<EntradaRedZoneEntity> getById(Long id) {
-        return entradaRedZoneRepository.findById(id);
+        return repo.findById(id);
     }
 
     public EntradaRedZoneEntity insert(EntradaRedZoneEntity entity) {
         entity.setData(LocalDateTime.now());
-        return entradaRedZoneRepository.save(entity);
+        return repo.save(entity);
     }
 
     public void delete(EntradaRedZoneEntity entity) {
-        entradaRedZoneRepository.delete(entity);
+        repo.delete(entity);
     }
 
     public EntradaRedZoneEntity update(Long id, EntradaRedZoneEntity updatedEntity) {
-        Optional<EntradaRedZoneEntity> existingEntityOptional = entradaRedZoneRepository.findById(id);
+        Optional<EntradaRedZoneEntity> existingEntityOptional = repo.findById(id);
 
         if (existingEntityOptional.isPresent()) {
             EntradaRedZoneEntity existingEntity = existingEntityOptional.get();
             existingEntity.setData(updatedEntity.getData());
-            // Se houver outros campos para atualizar, adicione aqui
-            return entradaRedZoneRepository.save(existingEntity);
+            return repo.save(existingEntity);
         } else {
             throw new EntityNotFoundException("Entidade de entrada com o ID " + id + " não encontrada");
         }
