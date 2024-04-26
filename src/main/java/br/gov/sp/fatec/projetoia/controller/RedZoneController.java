@@ -23,41 +23,41 @@ import br.gov.sp.fatec.projetoia.service.RedZoneService;
 public class RedZoneController {
 
     @Autowired
-    private RedZoneService redZoneserv;
+    private RedZoneService serv;
 
     @GetMapping
     public List<RedZoneEntity> getAll() {
-        return redZoneserv.getAll();
+        return serv.getAll();
     }
 
     @PostMapping
     public RedZoneEntity insert(@RequestBody RedZoneEntity data) {
-        return redZoneserv.insert(data);
+        return serv.insert(data);
     }
 
     @GetMapping(value = "/{id}")
     public Optional<RedZoneEntity> getById(@PathVariable("id") Long id) {
-        return redZoneserv.getById(id);
+        return serv.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
     public Optional<RedZoneEntity> deleteById(@PathVariable("id") Long id) {
-        Optional<RedZoneEntity> data = redZoneserv.getById(id);
+        Optional<RedZoneEntity> data = serv.getById(id);
         if (data.isEmpty())
             return null;
 
-        redZoneserv.delete(data.get());
+        serv.delete(data.get());
 
         return data;
     }
 
     @PutMapping(value = "/{id}")
     public RedZoneEntity update(@PathVariable("id") Long id, @RequestBody RedZoneEntity updatedEntity) {
-        Optional<RedZoneEntity> existingEntity = redZoneserv.getById(id);
+        Optional<RedZoneEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
             return null;
         }
         updatedEntity.setId(id);
-        return redZoneserv.update(id, updatedEntity);
+        return serv.update(id, updatedEntity);
     }
 }
