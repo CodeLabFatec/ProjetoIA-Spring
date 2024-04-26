@@ -1,9 +1,12 @@
 package br.gov.sp.fatec.projetoia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import br.gov.sp.fatec.projetoia.entity.EntradaRedZoneEntity;
 import br.gov.sp.fatec.projetoia.service.EntradaRedZoneService;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,4 +51,12 @@ public class EntradaRedZoneController {
         updatedEntity.setId(id);
         return serv.update(id, updatedEntity);
     }
+
+    @GetMapping(value = "/count-by-date")
+    public long countPeopleEnteredRedZoneByDate(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return serv.countPeopleEnteredRedZoneByDate(startDate, endDate);
+    }
+
 }

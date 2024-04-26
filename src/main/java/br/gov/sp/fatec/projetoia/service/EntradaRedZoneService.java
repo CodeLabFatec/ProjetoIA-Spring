@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.projetoia.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -43,4 +44,10 @@ public class EntradaRedZoneService {
             throw new EntityNotFoundException("Entidade de entrada com o ID " + id + " não encontrada");
         }
     }
+
+    public long countPeopleEnteredRedZoneByDate(LocalDate startDate, LocalDate endDate) {
+        return repo.countByDateBetween(startDate, endDate);
+    }
+        
+
 }

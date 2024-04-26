@@ -14,34 +14,34 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class RedZoneService {
     @Autowired
-    private RedZoneRepository redzoneRepository;
+    private RedZoneRepository repo;
 
     public List<RedZoneEntity> getAll() {
-        return redzoneRepository.findAll();
+        return repo.findAll();
     }
 
     public Optional<RedZoneEntity> getById(Long id) {
-        return redzoneRepository.findById(id);
+        return repo.findById(id);
     }
 
     public RedZoneEntity insert(RedZoneEntity entity) {
         entity.setData(LocalDateTime.now());
-        return redzoneRepository.save(entity);
+        return repo.save(entity);
     }
 
     public void delete(RedZoneEntity entity) {
-        redzoneRepository.delete(entity);
+        repo.delete(entity);
     }
 
     public RedZoneEntity update(Long id, RedZoneEntity updatedEntity) {
 
-        Optional<RedZoneEntity> existingEntityOptional = redzoneRepository.findById(id);
+        Optional<RedZoneEntity> existingEntityOptional = repo.findById(id);
 
         if (existingEntityOptional.isPresent()) {
             RedZoneEntity existingEntity = existingEntityOptional.get();
             existingEntity.setNome(updatedEntity.getNome());
             existingEntity.setDescricao(updatedEntity.getDescricao());
-            return redzoneRepository.save(existingEntity);
+            return repo.save(existingEntity);
         } else {
             throw new EntityNotFoundException("Entidade com o ID " + id + " não encontrada");
         }
