@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.sp.fatec.projetoia.entity.EntradaRedZoneEntity;
 import br.gov.sp.fatec.projetoia.repository.EntradaRedZoneRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@Transactional
 public class EntradaRedZoneService {
 
     @Autowired
@@ -47,6 +50,10 @@ public class EntradaRedZoneService {
 
     public long countPeopleEnteredRedZoneByDate(LocalDate startDate, LocalDate endDate) {
         return repo.countByDateBetween(startDate, endDate);
+    }
+
+    public Long countPeopleInRedZone(Long redZoneId) {
+        return repo.countPeopleInRedZone(redZoneId);
     }
         
 

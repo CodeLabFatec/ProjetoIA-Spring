@@ -47,4 +47,8 @@ public class SaidaRedZoneService {
         }
     }
 
+    public Long countPeopleInRedZone(Long redZoneId) {
+        return repo.countPeopleInRedZone(redZoneId);
+    }
+
 }
