@@ -26,6 +26,9 @@ public class RedZoneEntity {
     @Column(name = "data_cadastro")
     private LocalDateTime data;
 
+    @Column(name = "status", columnDefinition = "TINYINT(1)")
+    private boolean status;
+
     public Long getId() {
         return id;
     }
@@ -56,5 +59,13 @@ public class RedZoneEntity {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
