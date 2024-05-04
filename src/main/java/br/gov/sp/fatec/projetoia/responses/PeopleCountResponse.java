@@ -1,17 +1,17 @@
 package br.gov.sp.fatec.projetoia.responses;
 
 public class PeopleCountResponse {
-    private int peopleByRedZone;
+    private Integer peopleByRedZone;
 
-    public PeopleCountResponse(int peopleByRedZone) {
+    public PeopleCountResponse(Integer peopleByRedZone) {
         this.peopleByRedZone = peopleByRedZone;
     }
 
-    public int getPeopleByRedZone() {
+    public Integer getPeopleByRedZone() {
         return peopleByRedZone;
     }
 
-    public void setPeopleByRedZone(int peopleByRedZone) {
+    public void setPeopleByRedZone(Integer peopleByRedZone) {
         this.peopleByRedZone = peopleByRedZone;
     }
 }

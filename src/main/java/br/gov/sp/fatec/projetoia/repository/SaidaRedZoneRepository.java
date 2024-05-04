@@ -8,7 +8,7 @@ import br.gov.sp.fatec.projetoia.entity.SaidaRedZoneEntity;
 
 public interface SaidaRedZoneRepository extends JpaRepository<SaidaRedZoneEntity, Long>{
 
-    @Query("SELECT COUNT(e) FROM SaidaRedZoneEntity e WHERE e.redZone.id = :redZoneId")
+    @Query("SELECT COUNT(e) FROM SaidaRedZoneEntity e WHERE (:redZoneId IS NULL OR e.redZone.id = :redZoneId)")
     Long countPeopleInRedZone(@Param("redZoneId") Long redZoneId);
     
 }

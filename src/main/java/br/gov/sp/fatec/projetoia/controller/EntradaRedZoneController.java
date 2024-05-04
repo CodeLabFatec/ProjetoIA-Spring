@@ -63,7 +63,7 @@ public class EntradaRedZoneController {
 
     @GetMapping(value = "/people-by-redzone-filter")
     public ResponseEntity<PeopleCountResponse> countPeopleInRedZoneByFilter(
-            @RequestParam Long redZoneId) {
+            @RequestParam(required = false) Long redZoneId) {
         Long numberOfPeople = serv.countPeopleInRedZone(redZoneId);
         PeopleCountResponse countResponse = new PeopleCountResponse(numberOfPeople.intValue());
         return ResponseEntity.ok(countResponse);
