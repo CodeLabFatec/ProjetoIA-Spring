@@ -22,7 +22,7 @@ public class EntradaRedZoneController {
 
     @GetMapping
     public List<EntradaRedZoneEntity> getAll() {
-        return serv.getAll();
+        return serv.getAllWithTrueStatus();
     }
 
     @PostMapping

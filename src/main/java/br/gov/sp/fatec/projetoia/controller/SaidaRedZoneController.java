@@ -26,7 +26,7 @@ public class SaidaRedZoneController {
 
     @GetMapping
     public List<SaidaRedZoneEntity> getAll() {
-        return serv.getAll();
+        return serv.getAllWithTrueStatus();
     }
 
     @GetMapping(value = { "/id" })

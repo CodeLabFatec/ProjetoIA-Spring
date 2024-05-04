@@ -18,8 +18,8 @@ public class SaidaRedZoneService {
     private SaidaRedZoneRepository repo;
     
 
-    public List<SaidaRedZoneEntity> getAll(){
-        return repo.findAll();
+    public List<SaidaRedZoneEntity> getAllWithTrueStatus(){
+        return repo.findByRedZoneStatus(true);
     }
 
     public Optional<SaidaRedZoneEntity> getById(Long id){

@@ -19,8 +19,9 @@ public class EntradaRedZoneService {
     @Autowired
     private EntradaRedZoneRepository repo;
 
-    public List<EntradaRedZoneEntity> getAll() {
-        return repo.findAll();
+    public List<EntradaRedZoneEntity> getAllWithTrueStatus() {
+        // Filtra os registros onde o status na entidade RedZone é verdadeiro (true)
+        return repo.findByRedZoneStatus(true);
     }
 
     public Optional<EntradaRedZoneEntity> getById(Long id) {

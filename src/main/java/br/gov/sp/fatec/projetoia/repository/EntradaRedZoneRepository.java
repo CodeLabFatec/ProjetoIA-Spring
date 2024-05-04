@@ -3,6 +3,7 @@ package br.gov.sp.fatec.projetoia.repository;
 import br.gov.sp.fatec.projetoia.entity.EntradaRedZoneEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface EntradaRedZoneRepository extends JpaRepository<EntradaRedZoneEn
 
     @Query("SELECT COUNT(e) FROM EntradaRedZoneEntity e WHERE (:redZoneId IS NULL OR e.redZone.id = :redZoneId)")
     Long countPeopleInRedZone(@Param("redZoneId") Long redZoneId);
+
+    List<EntradaRedZoneEntity> findByRedZoneStatus(boolean status);
 
 }
