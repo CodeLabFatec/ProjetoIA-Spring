@@ -17,7 +17,7 @@ public class RedZoneService {
     private RedZoneRepository repo;
 
     public List<RedZoneEntity> getAll() {
-        return repo.findAll();
+        return repo.findAllByStatusTrue();
     }
 
     public Optional<RedZoneEntity> getById(Long id) {
@@ -26,11 +26,13 @@ public class RedZoneService {
 
     public RedZoneEntity insert(RedZoneEntity entity) {
         entity.setData(LocalDateTime.now());
+        entity.setStatus(true);
         return repo.save(entity);
     }
 
     public void delete(RedZoneEntity entity) {
-        repo.delete(entity);
+        entity.setStatus(false);
+        repo.save(entity);
     }
 
     public RedZoneEntity update(Long id, RedZoneEntity updatedEntity) {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +42,15 @@ public class RedZoneController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public Optional<RedZoneEntity> deleteById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         Optional<RedZoneEntity> data = serv.getById(id);
-        if (data.isEmpty())
-            return null;
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se a entidade não for encontrada
+        }
 
         serv.delete(data.get());
 
-        return data;
+        return ResponseEntity.noContent().build(); // Retorna status 204 No Content indicando que a solicitação foi processada com sucesso
     }
 
     @PutMapping(value = "/{id}")
