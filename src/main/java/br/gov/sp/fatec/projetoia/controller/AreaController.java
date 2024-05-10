@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import br.gov.sp.fatec.projetoia.entity.AreaEntity;
 import br.gov.sp.fatec.projetoia.service.AreaService;
@@ -32,9 +33,11 @@ public class AreaController {
     }
 
     @PostMapping
-    public AreaEntity insert(@RequestBody AreaEntity data) {
-        return serv.insert(data);
-    }
+public ResponseEntity<AreaEntity> insert(@RequestBody AreaEntity data) {
+    AreaEntity createdEntity = serv.insert(data);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdEntity);
+}
+
 
     @GetMapping(value = "/{id}")
     public Optional<AreaEntity> getById(@PathVariable("id") Long id) {
@@ -54,12 +57,14 @@ public class AreaController {
     }
 
     @PutMapping(value = "/{id}")
-    public AreaEntity update(@PathVariable("id") Long id, @RequestBody AreaEntity updatedEntity) {
+    public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody AreaEntity updatedEntity) {
         Optional<AreaEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
-            return null;
+            return ResponseEntity.notFound().build();
         }
         updatedEntity.setId(id);
-        return serv.update(id, updatedEntity);
+        serv.update(id, updatedEntity);
+        return ResponseEntity.noContent().build(); 
     }
+    
 }

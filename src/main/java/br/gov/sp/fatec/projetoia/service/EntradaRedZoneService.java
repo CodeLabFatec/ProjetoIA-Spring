@@ -20,7 +20,6 @@ public class EntradaRedZoneService {
     private EntradaRedZoneRepository repo;
 
     public List<EntradaRedZoneEntity> getAllWithTrueStatus() {
-        // Filtra os registros onde o status na entidade RedZone é verdadeiro (true)
         return repo.findByRedZoneStatus(true);
     }
 
