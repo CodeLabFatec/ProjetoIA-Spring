@@ -21,6 +21,15 @@ public class AreaEntity {
     @Column(name = "descricao")
     private String descricao;
 
+    // Construtor padrão
+    public AreaEntity() {
+    }
+
+    // Construtor com argumento para deserialização do JSON
+    public AreaEntity(Number id) {
+        this.id = id.longValue();
+    }
+
     public Long getId() {
         return id;
     }
