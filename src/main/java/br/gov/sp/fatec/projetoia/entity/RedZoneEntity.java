@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +30,10 @@ public class RedZoneEntity {
 
     @Column(name = "status", columnDefinition = "TINYINT(1)")
     private boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "id_area")
+    private AreaEntity area;
 
     public Long getId() {
         return id;
@@ -68,4 +74,13 @@ public class RedZoneEntity {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public AreaEntity getArea() {
+        return area;
+    }
+
+    public void setArea(AreaEntity area) {
+        this.area = area;
+    }
+
 }

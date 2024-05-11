@@ -26,6 +26,8 @@ public class RedZoneController {
     @Autowired
     private RedZoneService serv;
 
+    
+
     @GetMapping
     public List<RedZoneEntity> getAll() {
         return serv.getAll();
