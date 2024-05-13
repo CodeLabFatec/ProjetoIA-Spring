@@ -41,7 +41,7 @@ public class AreaService {
             existingEntity.setDescricao(updatedEntity.getDescricao());
             return repo.save(existingEntity);
         } else {
-            throw new EntityNotFoundException("Entidade com o ID " + id + " não encontrada");
+            throw new EntityNotFoundException("Area com o ID " + id + " não encontrada");
         }
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.gov.sp.fatec.projetoia.dtos.RedZoneDTO;
 import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
 import br.gov.sp.fatec.projetoia.service.RedZoneService;
 
@@ -26,15 +27,13 @@ public class RedZoneController {
     @Autowired
     private RedZoneService serv;
 
-    
-
     @GetMapping
     public List<RedZoneEntity> getAll() {
         return serv.getAll();
     }
 
     @PostMapping
-    public RedZoneEntity insert(@RequestBody RedZoneEntity data) {
+    public RedZoneEntity insert(@RequestBody RedZoneDTO data) {
         return serv.insert(data);
     }
 
@@ -56,12 +55,12 @@ public class RedZoneController {
     }
 
     @PutMapping(value = "/{id}")
-    public RedZoneEntity update(@PathVariable("id") Long id, @RequestBody RedZoneEntity updatedEntity) {
+    public RedZoneEntity update(@PathVariable("id") Long id, @RequestBody RedZoneDTO updatedEntity) {
         Optional<RedZoneEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
             return null;
         }
-        updatedEntity.setId(id);
         return serv.update(id, updatedEntity);
     }
+
 }
