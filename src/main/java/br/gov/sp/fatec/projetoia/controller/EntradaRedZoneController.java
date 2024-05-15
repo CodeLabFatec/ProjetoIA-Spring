@@ -21,10 +21,20 @@ public class EntradaRedZoneController {
     private EntradaRedZoneService serv;
 
     @GetMapping
-    public List<EntradaRedZoneEntity> getAll() {
-        return serv.getAllWithTrueStatus();
+    public List<EntradaRedZoneEntity> getAll(
+        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) LocalDate endDate,
+        @RequestParam(required = false) LocalDate specificDate
+    ){
+        if (specificDate != null) {
+            return serv.getAllWithTrueStatusForDate(specificDate);
+        } else if (startDate != null) {
+            return serv.getAllWithTrueStatusAndDateRange(startDate, endDate);
+        } else {
+            return serv.getAllWithTrueStatus();
+        }
     }
-
+    
     @PostMapping
     public EntradaRedZoneEntity insert(@RequestBody EntradaRedZoneEntity data) {
         return serv.insert(data);
