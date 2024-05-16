@@ -21,11 +21,12 @@ public class AreaEntity {
     @Column(name = "descricao")
     private String descricao;
 
-    // Construtor padrão
+    @Column(name = "status", columnDefinition = "TINYINT(1)")
+    private boolean status;
+
     public AreaEntity() {
     }
 
-    // Construtor com argumento para deserialização do JSON
     public AreaEntity(Number id) {
         this.id = id.longValue();
     }
@@ -53,4 +54,8 @@ public class AreaEntity {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+}
 }
