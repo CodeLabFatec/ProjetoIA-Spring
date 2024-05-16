@@ -24,11 +24,14 @@ public class AreaService {
     }
 
     public AreaEntity insert(AreaEntity entity) {
+        entity.setStatus(true); 
         return repo.save(entity);
     }
 
     public void delete(AreaEntity entity) {
         repo.delete(entity);
+        entity.setStatus(false);
+        repo.save(entity);
     }
 
     public AreaEntity update(Long id, AreaEntity updatedEntity) {
@@ -39,6 +42,7 @@ public class AreaService {
             AreaEntity existingEntity = existingEntityOptional.get();
             existingEntity.setNome(updatedEntity.getNome());
             existingEntity.setDescricao(updatedEntity.getDescricao());
+            existingEntity.setStatus(true);
             return repo.save(existingEntity);
         } else {
             throw new EntityNotFoundException("Area com o ID " + id + " não encontrada");
