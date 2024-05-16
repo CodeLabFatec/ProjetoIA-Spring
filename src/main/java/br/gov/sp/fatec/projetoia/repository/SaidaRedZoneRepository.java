@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.projetoia.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,9 @@ public interface SaidaRedZoneRepository extends JpaRepository<SaidaRedZoneEntity
     Long countPeopleInRedZone(@Param("redZoneId") Long redZoneId);
 
     List<SaidaRedZoneEntity> findByRedZoneStatus(boolean status);
+
+    List<SaidaRedZoneEntity> findByRedZoneStatusAndDataBetweenOrderByData(boolean status, LocalDateTime startDate, LocalDateTime endDate);
+    List<SaidaRedZoneEntity> findByRedZoneStatusAndDataGreaterThanEqualOrderByData(boolean status, LocalDateTime date);
+
     
 }
