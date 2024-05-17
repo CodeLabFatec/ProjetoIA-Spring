@@ -24,4 +24,17 @@ public interface EntradaRedZoneRepository extends JpaRepository<EntradaRedZoneEn
 
     List<EntradaRedZoneEntity> findByRedZoneStatusAndDataGreaterThanEqualOrderByData(boolean status, LocalDateTime date);
 
+    @Query("SELECT e FROM EntradaRedZoneEntity e " +
+           "WHERE e.redZone.status = :status " +
+           "AND (:areaId IS NULL OR e.redZone.area.id = :areaId) " +
+           "AND (:redZoneId IS NULL OR e.redZone.id = :redZoneId) " +
+           "AND (:startDate IS NULL OR e.data BETWEEN :startDate AND :endDate) " + 
+           "ORDER BY e.data")
+    List<EntradaRedZoneEntity> findByFilters(
+        @Param("status") boolean status, 
+        @Param("areaId") Long areaId,
+        @Param("redZoneId") Long redZoneId,
+        @Param("startDate") LocalDateTime startDate, 
+        @Param("endDate") LocalDateTime endDate);
+
 }

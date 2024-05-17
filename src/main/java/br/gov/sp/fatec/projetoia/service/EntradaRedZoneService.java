@@ -43,6 +43,22 @@ public class EntradaRedZoneService {
         return repo.findByRedZoneStatusAndDataBetweenOrderByData(true, firstDate, lastDate);
     }
 
+    public List<EntradaRedZoneEntity> findByFilters(Long areaId, Long redZoneId, LocalDate specificDate, LocalDate startDate, LocalDate endDate){
+        LocalDateTime firstDate;
+        LocalDateTime lastDate;
+        if (specificDate != null){
+            firstDate = LocalDateTime.of(specificDate, LocalTime.MIN);
+            lastDate = LocalDateTime.of(specificDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+        }else if (startDate != null){
+            firstDate = LocalDateTime.of(startDate, LocalTime.MIN);
+            lastDate = LocalDateTime.of(endDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+        }else{
+            firstDate = null;
+            lastDate = null;
+        }
+        return repo.findByFilters(true, areaId, redZoneId, firstDate, lastDate);
+    }
+
     public Optional<EntradaRedZoneEntity> getById(Long id) {
         return repo.findById(id);
     }
