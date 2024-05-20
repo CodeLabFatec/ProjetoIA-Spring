@@ -19,5 +19,17 @@ public interface SaidaRedZoneRepository extends JpaRepository<SaidaRedZoneEntity
     List<SaidaRedZoneEntity> findByRedZoneStatusAndDataBetweenOrderByData(boolean status, LocalDateTime startDate, LocalDateTime endDate);
     List<SaidaRedZoneEntity> findByRedZoneStatusAndDataGreaterThanEqualOrderByData(boolean status, LocalDateTime date);
 
+    @Query("SELECT s FROM SaidaRedZoneEntity s " +
+           "WHERE s.redZone.status = :status " +
+           "AND (:areaId IS NULL OR s.redZone.area.id = :areaId) " +
+           "AND (:redZoneId IS NULL OR s.redZone.id = :redZoneId) " +
+           "AND (:startDate IS NULL OR s.data BETWEEN :startDate AND :endDate) " + 
+           "ORDER BY s.data")
+    List<SaidaRedZoneEntity> findByFilters(
+        @Param("status") boolean status, 
+        @Param("areaId") Long areaId,
+        @Param("redZoneId") Long redZoneId,
+        @Param("startDate") LocalDateTime startDate, 
+        @Param("endDate") LocalDateTime endDate);
     
 }
