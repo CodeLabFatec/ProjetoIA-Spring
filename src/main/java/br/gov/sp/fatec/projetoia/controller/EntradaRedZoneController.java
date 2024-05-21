@@ -9,7 +9,6 @@ import br.gov.sp.fatec.projetoia.responses.PeopleCountResponse;
 import br.gov.sp.fatec.projetoia.service.EntradaRedZoneService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
