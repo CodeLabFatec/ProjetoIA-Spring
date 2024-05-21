@@ -3,6 +3,7 @@ package br.gov.sp.fatec.projetoia.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -43,15 +44,19 @@ public class EntradaRedZoneService {
         return repo.findByRedZoneStatusAndDataBetweenOrderByData(true, firstDate, lastDate);
     }
 
-    public List<EntradaRedZoneEntity> findByFilters(Long areaId, Long redZoneId, LocalDate specificDate, LocalDate startDate, LocalDate endDate){
+    public List<EntradaRedZoneEntity> findByFilters(Long areaId, Long redZoneId, LocalDate specificDate, String startDate, LocalDate endDate){
         LocalDateTime firstDate;
         LocalDateTime lastDate;
         if (specificDate != null){
             firstDate = LocalDateTime.of(specificDate, LocalTime.MIN);
             lastDate = LocalDateTime.of(specificDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
         }else if (startDate != null){
-            firstDate = LocalDateTime.of(startDate, LocalTime.MIN);
-            lastDate = LocalDateTime.of(endDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+            firstDate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_DATE_TIME);
+            if (endDate != null) {
+                lastDate = LocalDateTime.of(endDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+            } else {
+                lastDate = null;
+            }
         }else{
             firstDate = null;
             lastDate = null;

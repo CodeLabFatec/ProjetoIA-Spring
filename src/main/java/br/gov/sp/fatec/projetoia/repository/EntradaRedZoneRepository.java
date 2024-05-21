@@ -28,7 +28,8 @@ public interface EntradaRedZoneRepository extends JpaRepository<EntradaRedZoneEn
            "WHERE e.redZone.status = :status " +
            "AND (:areaId IS NULL OR e.redZone.area.id = :areaId) " +
            "AND (:redZoneId IS NULL OR e.redZone.id = :redZoneId) " +
-           "AND (:startDate IS NULL OR e.data BETWEEN :startDate AND :endDate) " + 
+           "AND (:startDate IS NULL OR e.data >= :startDate) " + 
+           "AND (:endDate IS NULL OR e.data <= :endDate) " + 
            "ORDER BY e.data")
     List<EntradaRedZoneEntity> findByFilters(
         @Param("status") boolean status, 
