@@ -29,7 +29,7 @@ public class SaidaRedZoneController {
     public List<SaidaRedZoneEntity> getAll(
         @RequestParam(required = false) Long areaId,
         @RequestParam(required = false) Long redZoneId,
-        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) String startDate,
         @RequestParam(required = false) LocalDate endDate,
         @RequestParam(required = false) LocalDate specificDate
     ){
