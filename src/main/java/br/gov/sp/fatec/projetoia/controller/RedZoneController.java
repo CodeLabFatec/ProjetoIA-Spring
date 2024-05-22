@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.projetoia.dtos.RedZoneDTO;
+import br.gov.sp.fatec.projetoia.entity.AreaEntity;
 import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
 import br.gov.sp.fatec.projetoia.service.RedZoneService;
 
@@ -61,6 +62,16 @@ public class RedZoneController {
             return null;
         }
         return serv.update(id, updatedEntity);
+    }
+
+    @PutMapping(value = "/activate/{id}")
+    public ResponseEntity<Void> activateById(@PathVariable("id") Long id){
+        Optional<RedZoneEntity> data = serv.getById(id);
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build(); 
+        }
+        serv.activate(data.get());
+        return ResponseEntity.noContent().build(); 
     }
 
 }

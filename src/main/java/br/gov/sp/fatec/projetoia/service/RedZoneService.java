@@ -23,7 +23,7 @@ public class RedZoneService {
     private AreaRepository areaRepo;
 
     public List<RedZoneEntity> getAll() {
-        return repo.findAllByStatusTrue();
+        return repo.findAll();
     }
 
     public Optional<RedZoneEntity> getById(Long id) {
@@ -62,5 +62,10 @@ public class RedZoneService {
         } else {
             throw new EntityNotFoundException("Entidade com o ID " + id + " não encontrada");
         }
+    }
+
+    public void activate(RedZoneEntity entity){
+        entity.setStatus(true);
+        repo.save(entity);
     }
 }
