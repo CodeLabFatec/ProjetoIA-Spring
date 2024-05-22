@@ -29,8 +29,12 @@ public class AreaService {
     }
 
     public void delete(AreaEntity entity) {
-        repo.delete(entity);
         entity.setStatus(false);
+        repo.save(entity);
+    }
+
+    public void activate(AreaEntity entity){
+        entity.setStatus(true);
         repo.save(entity);
     }
 
