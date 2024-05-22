@@ -55,6 +55,16 @@ public class AreaController {
         return ResponseEntity.noContent().build(); 
     }
 
+    @PutMapping(value = "/activate/{id}")
+    public ResponseEntity<Void> activateById(@PathVariable("id") Long id){
+        Optional<AreaEntity> data = areaService.getById(id);
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build(); 
+        }
+        areaService.activate(data.get());
+        return ResponseEntity.noContent().build(); 
+    }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<AreaEntity> update(@PathVariable("id") Long id, @RequestBody AreaEntity updatedArea) {
         Optional<AreaEntity> existingArea = areaService.getById(id);

@@ -43,6 +43,10 @@ public class AreaEntity {
         return nome;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
