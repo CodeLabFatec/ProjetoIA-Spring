@@ -27,17 +27,13 @@ public class SaidaRedZoneController {
 
     @GetMapping
     public List<SaidaRedZoneEntity> getAll(
-        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) Long areaId,
+        @RequestParam(required = false) Long redZoneId,
+        @RequestParam(required = false) String startDate,
         @RequestParam(required = false) LocalDate endDate,
         @RequestParam(required = false) LocalDate specificDate
     ){
-        if (specificDate != null) {
-            return serv.getAllWithTrueStatusForDate(specificDate);
-        } else if (startDate != null) {
-            return serv.getAllWithTrueStatusAndDateRange(startDate, endDate);
-        } else {
-            return serv.getAllWithTrueStatus();
-        }
+        return serv.findByFilters(areaId, redZoneId, specificDate, startDate, endDate);
     }
 
     @GetMapping(value = { "/id" })
