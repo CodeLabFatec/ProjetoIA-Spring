@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.projetoia.dtos.RedZoneDTO;
-import br.gov.sp.fatec.projetoia.entity.AreaEntity;
 import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
 import br.gov.sp.fatec.projetoia.service.RedZoneService;
 

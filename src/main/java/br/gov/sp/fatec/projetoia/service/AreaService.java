@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.projetoia.entity.AreaEntity;
+import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
 import br.gov.sp.fatec.projetoia.repository.AreaRepository;
+import br.gov.sp.fatec.projetoia.repository.RedZoneRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AreaService {
     @Autowired
     private AreaRepository repo;
+
+    @Autowired
+    private RedZoneRepository repoRedZone;
 
     public List<AreaEntity> getAll() {
         return repo.findAll();
@@ -29,7 +34,12 @@ public class AreaService {
     }
 
     public void delete(AreaEntity entity) {
+        List<RedZoneEntity> redZoneList = repoRedZone.findByAreaId(entity.getId());
         entity.setStatus(false);
+        for(RedZoneEntity redZone : redZoneList){
+            redZone.setStatus(false);
+            repoRedZone.save(redZone);
+        }
         repo.save(entity);
     }
 
