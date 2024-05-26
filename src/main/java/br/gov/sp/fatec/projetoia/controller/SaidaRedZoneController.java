@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.projetoia.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,14 @@ public class SaidaRedZoneController {
     private SaidaRedZoneService serv;
 
     @GetMapping
-    public List<SaidaRedZoneEntity> getAll() {
-        return serv.getAllWithTrueStatus();
+    public List<SaidaRedZoneEntity> getAll(
+        @RequestParam(required = false) Long areaId,
+        @RequestParam(required = false) Long redZoneId,
+        @RequestParam(required = false) String startDate,
+        @RequestParam(required = false) LocalDate endDate,
+        @RequestParam(required = false) LocalDate specificDate
+    ){
+        return serv.findByFilters(areaId, redZoneId, specificDate, startDate, endDate);
     }
 
     @GetMapping(value = { "/id" })

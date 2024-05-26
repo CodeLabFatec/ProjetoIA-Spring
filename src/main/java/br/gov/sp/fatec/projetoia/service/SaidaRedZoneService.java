@@ -1,6 +1,10 @@
 package br.gov.sp.fatec.projetoia.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +22,46 @@ public class SaidaRedZoneService {
     private SaidaRedZoneRepository repo;
     
 
-    public List<SaidaRedZoneEntity> getAllWithTrueStatus(){
+    public List<SaidaRedZoneEntity> getAllWithTrueStatus() {
         return repo.findByRedZoneStatus(true);
+    }
+
+    public List<SaidaRedZoneEntity> getAllWithTrueStatusAndDateRange(LocalDate startDate, LocalDate endDate) {
+
+        LocalDateTime firstDate = LocalDateTime.of(startDate, LocalTime.MIN);
+        if (startDate != null && endDate != null) {
+            LocalDateTime lastDate = LocalDateTime.of(endDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+            return repo.findByRedZoneStatusAndDataBetweenOrderByData(true, firstDate, lastDate);
+        
+        } else {
+            return repo.findByRedZoneStatusAndDataGreaterThanEqualOrderByData(true, firstDate);
+        }
+    }
+
+    public List<SaidaRedZoneEntity> getAllWithTrueStatusForDate(LocalDate specificDate) {
+        LocalDateTime firstDate = LocalDateTime.of(specificDate, LocalTime.MIN);
+        LocalDateTime lastDate = LocalDateTime.of(specificDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+        return repo.findByRedZoneStatusAndDataBetweenOrderByData(true, firstDate, lastDate);
+    }
+
+    public List<SaidaRedZoneEntity> findByFilters(Long areaId, Long redZoneId, LocalDate specificDate, String startDate, LocalDate endDate){
+        LocalDateTime firstDate;
+        LocalDateTime lastDate;
+        if (specificDate != null){
+            firstDate = LocalDateTime.of(specificDate, LocalTime.MIN);
+            lastDate = LocalDateTime.of(specificDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+        }else if (startDate != null){
+            firstDate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_DATE_TIME);
+            if (endDate != null) {
+                lastDate = LocalDateTime.of(endDate, LocalTime.MAX).truncatedTo(ChronoUnit.SECONDS);
+            } else {
+                lastDate = null;
+            }
+        }else{
+            firstDate = null;
+            lastDate = null;
+        }
+        return repo.findByFilters(true, areaId, redZoneId, firstDate, lastDate);
     }
 
     public Optional<SaidaRedZoneEntity> getById(Long id){

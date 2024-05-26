@@ -6,14 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "redzone")
-public class RedZoneEntity {
+@Table(name = "area")
+public class AreaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,15 +21,15 @@ public class RedZoneEntity {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "data_cadastro")
-    private LocalDateTime data;
-
     @Column(name = "status", columnDefinition = "TINYINT(1)")
     private boolean status;
 
-    @ManyToOne
-    @JoinColumn(name = "id_area")
-    private AreaEntity area;
+    public AreaEntity() {
+    }
+
+    public AreaEntity(Number id) {
+        this.id = id.longValue();
+    }
 
     public Long getId() {
         return id;
@@ -45,6 +41,10 @@ public class RedZoneEntity {
 
     public String getNome() {
         return nome;
+    }
+
+    public boolean getStatus() {
+        return status;
     }
 
     public void setNome(String nome) {
@@ -59,28 +59,7 @@ public class RedZoneEntity {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public AreaEntity getArea() {
-        return area;
-    }
-
-    public void setArea(AreaEntity area) {
-        this.area = area;
-    }
-
+}
 }

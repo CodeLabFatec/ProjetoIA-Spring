@@ -25,6 +25,44 @@ As branches e commits desse projeto seguem o seguinte padrão estabelecido pelo 
 
 <br>
 
+> Instalação
+
+Para instalar e executar o projeto siga as instruções abaixo:
+
+1. Clone o repositório:
+    ```bash
+    git clone https://www.github.com/CodeLabFatec/ProjetoIA-Spring.git
+    ```
+
+2. Entre no diretório do projeto:
+    ```bash
+    cd ProjetoIA-Spring
+    ```
+
+3. Instale as dependências:
+    ```bash
+    mvn install
+    ```
+
+4. Crie uma cópia do arquivo `.env.example` chamado `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+
+5. Abra o arquivo `.env` e insira as URLs do servidor. Por exemplo:
+    ```plaintext
+    DB_URL=localhost:3306/seu_banco
+    DB_USER=seu_usuario
+    DB_PASSWORD=sua_senha
+    ```
+
+6. Inicie o servidor:
+    ```bash
+    mvn spring-boot:run
+    ```
+
+<br>
+
 <span id="tecnologias">
 
 ## 🛠️ Tecnologias

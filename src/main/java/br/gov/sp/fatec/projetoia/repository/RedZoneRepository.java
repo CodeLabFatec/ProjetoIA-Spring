@@ -10,4 +10,6 @@ import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
 public interface RedZoneRepository extends JpaRepository<RedZoneEntity, Long>{
     @Query("SELECT r FROM RedZoneEntity r WHERE r.status = true")
     List<RedZoneEntity> findAllByStatusTrue();
+
+    List<RedZoneEntity> findByAreaId(Long id);
 }
