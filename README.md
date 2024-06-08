@@ -27,6 +27,8 @@ As branches e commits desse projeto seguem o seguinte padrão estabelecido pelo 
 
 > Instalação
 
+O arquivo DDL.sql contém um script para gerar todas as tabelas SQL necessárias para o ProjetoIA funcionar, execute-o antes de prosseguir.
+
 Para instalar e executar o projeto siga as instruções abaixo:
 
 1. Clone o repositório:
@@ -46,7 +48,7 @@ Para instalar e executar o projeto siga as instruções abaixo:
 
 4. Crie uma cópia do arquivo `.env.example` chamado `.env`:
     ```bash
-    cp .env.example .env
+    cp .env.example src/main/resources/.env
     ```
 
 5. Abra o arquivo `.env` e insira as URLs do servidor. Por exemplo:
