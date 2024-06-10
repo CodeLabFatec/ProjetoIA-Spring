@@ -24,8 +24,8 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "senha")
-    private String senha;
+    @Column(name = "password")
+    private String password;
 
     @OneToOne
     @JoinColumn(name = "id_papel")
@@ -55,12 +55,12 @@ public class UserEntity {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public PaperEntity getPapel() {

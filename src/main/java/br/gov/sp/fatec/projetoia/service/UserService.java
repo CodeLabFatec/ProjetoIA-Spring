@@ -49,7 +49,7 @@ public class UserService {
         UserEntity entity = new UserEntity();
         entity.setEmail(data.getEmail());
         entity.setNome(data.getNome());
-        entity.setSenha(password); 
+        entity.setPassword(password); 
         entity.setPapel(paperEntity);       
 
         repo.save(entity);
