@@ -9,4 +9,7 @@ import br.gov.sp.fatec.projetoia.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
     
     public List<UserEntity> findByEmail(String email);
+
+    public UserEntity findByEmailAndPassword(String email, String senha);
+
 }
