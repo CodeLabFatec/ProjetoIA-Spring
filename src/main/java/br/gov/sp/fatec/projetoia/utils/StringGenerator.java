@@ -4,12 +4,12 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 
 @Service
-public class PasswordGenerator {
+public class StringGenerator {
 
     private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
     private static final String DIGITS = "0123456789";
-    private static final String SPECIAL_CHARACTERS = "!@#$%^&*()-_=+<>?";
+    private static final String SPECIAL_CHARACTERS = "!@#$*";
     private static final String ALL_CHARACTERS = UPPERCASE + LOWERCASE + DIGITS + SPECIAL_CHARACTERS;
 
     private static final SecureRandom random = new SecureRandom();
@@ -22,5 +22,15 @@ public class PasswordGenerator {
         }
 
         return new String(password);
+    }
+
+    public String generateRandomRecoverCode(){
+        StringBuilder code = new StringBuilder(6);
+        for(int i = 0; i < 6; i++){
+            int index = random.nextInt(DIGITS.length());
+            code.append(DIGITS.charAt(index));
+        }
+
+        return code.toString();
     }
 }

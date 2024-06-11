@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.gov.sp.fatec.projetoia.dtos.PatchPasswordDTO;
 import br.gov.sp.fatec.projetoia.dtos.UserDTO;
 import br.gov.sp.fatec.projetoia.entity.UserEntity;
 import br.gov.sp.fatec.projetoia.service.UserService;
@@ -60,6 +62,19 @@ public class UserController {
         if(data == null) return ResponseEntity.badRequest().body(null);
 
         userService.update(id, data);
+
+        return ResponseEntity.ok().build();
+    }
+    @PatchMapping(value="/password")
+    public ResponseEntity<Void> patchPassword(@RequestBody PatchPasswordDTO dto) throws Exception{
+        if(dto == null) return ResponseEntity.badRequest().build();
+
+        UserEntity user = userService.getById(dto.getUserId()).orElse(null);
+        if(user == null) return ResponseEntity.notFound().build();
+
+        if(!userService.isPasswordValid(user, dto.getOldPassword())) throw new Exception("Senha incorreta.");
+
+        userService.changeUserPassword(user, dto.getNewPassword(), null);
 
         return ResponseEntity.ok().build();
     }

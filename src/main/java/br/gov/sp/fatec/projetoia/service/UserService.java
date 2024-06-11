@@ -21,7 +21,7 @@ import br.gov.sp.fatec.projetoia.repository.RedZoneRepository;
 import br.gov.sp.fatec.projetoia.repository.UserPasswordTokenRepository;
 import br.gov.sp.fatec.projetoia.repository.UserRepository;
 import br.gov.sp.fatec.projetoia.utils.EmailSender;
-import br.gov.sp.fatec.projetoia.utils.PasswordGenerator;
+import br.gov.sp.fatec.projetoia.utils.StringGenerator;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -38,7 +38,7 @@ public class UserService {
     @Autowired
     private PaperRepository paperRepository;
     @Autowired
-    private PasswordGenerator passwordGenerator;
+    private StringGenerator stringGenerator;
     @Autowired
     private EmailSender emailSender;
 
@@ -76,7 +76,7 @@ public class UserService {
         PaperEntity paperEntity = paperRepository.findById(data.getIdPapel()).orElse(null);
         if(paperEntity == null) throw new EntityNotFoundException("Cargo não encontrado.");
 
-        String password = passwordGenerator.generateRandomPassword(8);
+        String password = stringGenerator.generateRandomPassword(8);
 
         UserEntity entity = new UserEntity();
         entity.setEmail(data.getEmail());
@@ -156,7 +156,7 @@ public class UserService {
 
         UserPasswordTokenEntity userPasswordTokenEntity = new UserPasswordTokenEntity();
 
-        String token = passwordGenerator.generateRandomPassword(10);
+        String token = stringGenerator.generateRandomRecoverCode();
 
         userPasswordTokenEntity.setToken(token);
         userPasswordTokenEntity.setUser(user);
@@ -173,12 +173,15 @@ public class UserService {
     public UserPasswordTokenEntity getUserByPasswordResetToken(String token) {
         UserPasswordTokenEntity entity = userPasswordTokenRepository.findByToken(token).orElse(null);
         if(entity == null) return null;
-        if(entity.getExpiryDate().isAfter(LocalDateTime.now())) return null;
+        // if(entity.getExpiryDate().isAfter(LocalDateTime.now())) return null;
 
         return entity;
     }
 
-    public void changeUserPassword(UserEntity user, String newPassword, UserPasswordTokenEntity userPasswordTokenEntity) {
+    public void changeUserPassword(UserEntity user, String newPassword, UserPasswordTokenEntity userPasswordTokenEntity) throws Exception {
+        if(newPassword == null || newPassword.equals("") || newPassword.equals(" ")) 
+            throw new Exception("A senha não pode ser vazia.");
+        
         user.setPassword(newPassword);
 
         repo.save(user);
@@ -186,5 +189,9 @@ public class UserService {
         if(userPasswordTokenEntity != null){
             userPasswordTokenRepository.delete(userPasswordTokenEntity);
         }
+    }
+
+    public boolean isPasswordValid(UserEntity user, String passwordInput){
+        return user.getPassword().equals(passwordInput);
     }
 }

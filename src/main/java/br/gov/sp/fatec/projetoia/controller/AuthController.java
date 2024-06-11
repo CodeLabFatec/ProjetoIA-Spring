@@ -2,7 +2,7 @@ package br.gov.sp.fatec.projetoia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +18,7 @@ import br.gov.sp.fatec.projetoia.service.JwtService;
 import br.gov.sp.fatec.projetoia.service.UserService;
 
 @RestController
+@CrossOrigin
 public class AuthController {
 
     @Autowired
@@ -42,9 +43,9 @@ public class AuthController {
             throw new AuthenticationException("Email ou senha inválidos");
         }
     }
-    @PostMapping("/recover/{email}")
-    public ResponseEntity<Void> recover(@PathVariable String email){
-        UserEntity user = userRepository.findByEmail(email);
+    @PostMapping("/recover")
+    public ResponseEntity<Void> recover(@RequestBody RecoverPasswordDTO dto){
+        UserEntity user = userRepository.findByEmail(dto.getEmail());
         if(user == null) return ResponseEntity.notFound().build();
 
         userService.createPasswordResetTokenForUser(user.getId());
@@ -52,7 +53,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/token")
-    public ResponseEntity<Void> token(@RequestBody RecoverPasswordDTO dto){
+    public ResponseEntity<Void> token(@RequestBody RecoverPasswordDTO dto) throws Exception{
         if(dto == null) return ResponseEntity.badRequest().build();
 
         UserPasswordTokenEntity userPasswordTokenEntity = userService.getUserByPasswordResetToken(dto.getToken());
