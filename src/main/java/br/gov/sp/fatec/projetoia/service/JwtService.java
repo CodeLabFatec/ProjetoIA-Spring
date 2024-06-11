@@ -2,6 +2,7 @@ package br.gov.sp.fatec.projetoia.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 
@@ -12,7 +13,7 @@ import java.util.Date;
 public class JwtService {
 
     private static final long EXPIRATION_TIME = 864_000_000; // 10 dias em milissegundos
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String generateToken(String email, String nome, String papel) {
         Date now = new Date();
