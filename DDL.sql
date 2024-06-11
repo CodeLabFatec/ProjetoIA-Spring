@@ -13,7 +13,7 @@ CREATE TABLE `usuario` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `senha` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `id_papel` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_papel_em_usuario_idx` (`id_papel`),
@@ -57,3 +57,20 @@ CREATE TABLE `saida_redzone` (
   KEY `id_redzone_saida_idx` (`id_redzone`),
   CONSTRAINT `id_redzone_saida` FOREIGN KEY (`id_redzone`) REFERENCES `redzone` (`id`)
 );
+
+create table usuario_area(
+id_usuario bigint not null,
+id_area bigint not null,
+primary key(id_usuario, id_area));
+
+create table usuario_redzone(
+id_usuario bigint not null,
+id_redzone bigint not null,
+primary key(id_usuario, id_redzone));
+
+create table usuario_password_token(
+id bigint not null auto_increment primary key,
+id_usuario bigint not null,
+token varchar(50) not null,
+datahora_expiracao datetime not null,
+foreign key(id_usuario) references usuario(id));
