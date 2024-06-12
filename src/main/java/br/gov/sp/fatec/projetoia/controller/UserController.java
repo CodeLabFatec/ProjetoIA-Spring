@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.gov.sp.fatec.projetoia.dtos.PatchPasswordDTO;
 import br.gov.sp.fatec.projetoia.dtos.UserDTO;
 import br.gov.sp.fatec.projetoia.entity.UserEntity;
+import br.gov.sp.fatec.projetoia.repository.PaperRepository;
+import br.gov.sp.fatec.projetoia.responses.SelectOptionsResponse;
 import br.gov.sp.fatec.projetoia.service.UserService;
 
 @RestController
@@ -28,10 +30,20 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PaperRepository paperRepository;
 
     @GetMapping
     public List<UserEntity> getAll() {
         return userService.getAll();
+    }
+    @GetMapping(value="/select") 
+    public List<SelectOptionsResponse> getAllAsSelect(){
+        return userService.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
+    }
+    @GetMapping(value="/selectPapeis") 
+    public List<SelectOptionsResponse> getAllPapeisAsSelect(){
+        return paperRepository.findAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserEntity> getByid(@PathVariable("id") Long id){

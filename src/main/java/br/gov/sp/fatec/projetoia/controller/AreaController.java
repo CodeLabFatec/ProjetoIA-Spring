@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 
 
 import br.gov.sp.fatec.projetoia.entity.AreaEntity;
+import br.gov.sp.fatec.projetoia.responses.SelectOptionsResponse;
 import br.gov.sp.fatec.projetoia.service.AreaService;
 
 @RestController
@@ -33,7 +34,10 @@ public class AreaController {
     public List<AreaEntity> getAll() {
         return areaService.getAll();
     }
-
+    @GetMapping(value="/select") 
+    public List<SelectOptionsResponse> getAllAsSelect(){
+        return areaService.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
+    }
     @PostMapping
     public ResponseEntity<AreaEntity> insert(@RequestBody AreaEntity area) {
         AreaEntity createdArea = areaService.insert(area);
