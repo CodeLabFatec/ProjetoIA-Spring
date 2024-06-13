@@ -3,27 +3,27 @@ package br.gov.sp.fatec.projetoia.security;
 
 public class Login {
 
-    private String username;
+    private String email;
 
     private String password;
   
-    private String auth;
+    private Long idPapel;
   
     private String token;
 
     public Login() {}
 
-    public Login(String username, String password) {
-        this.username = username;
+    public Login(String email, String password) {
+        this.email = email;
         this.password = password;
     }
     
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
   
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
   
     public String getPassword() {
@@ -42,12 +42,12 @@ public class Login {
         this.token = token;
     }
   
-    public String getAuth() {
-        return auth;
+    public Long getIdPapel() {
+        return idPapel;
     }
   
-    public void setAuth(String auth) {
-        this.auth = auth;
+    public void setIdPapel(Long idPapel) {
+        this.idPapel = idPapel;
     }
       
   }

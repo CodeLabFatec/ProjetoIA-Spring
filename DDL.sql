@@ -13,7 +13,7 @@ CREATE TABLE `usuario` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` text NOT NULL,
   `id_papel` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_papel_em_usuario_idx` (`id_papel`),
@@ -74,3 +74,6 @@ id_usuario bigint not null,
 token varchar(50) not null,
 datahora_expiracao datetime not null,
 foreign key(id_usuario) references usuario(id));
+
+insert into usuario(nome, email, password, id_papel) values
+('Administrador', 'admin@admin.com', '$2a$10$hGOrv4ya8KeuA3Vc4FUkKuMHM2FangSnjuJhYCizxKwHtWqIpb7iO', 1);

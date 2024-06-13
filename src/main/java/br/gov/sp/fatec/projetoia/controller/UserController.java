@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import br.gov.sp.fatec.projetoia.service.UserService;
 @RestController
 @RequestMapping(value = "/user")
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class UserController {
 
     @Autowired
@@ -34,6 +36,7 @@ public class UserController {
     private PaperRepository paperRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('1')")
     public List<UserEntity> getAll() {
         return userService.getAll();
     }
@@ -46,6 +49,7 @@ public class UserController {
         return paperRepository.findAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> getByid(@PathVariable("id") Long id){
         UserEntity user = userService.getById(id).orElse(null);
         if(user == null) return ResponseEntity.notFound().build();
@@ -54,6 +58,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         userService.delete(id);
 
@@ -61,6 +66,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> insert(@RequestBody UserDTO data){
         if(data == null) return ResponseEntity.badRequest().body(null);
 
@@ -70,6 +76,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> update(@PathVariable("id") Long id, @RequestBody UserDTO data){
         if(data == null) return ResponseEntity.badRequest().body(null);
 

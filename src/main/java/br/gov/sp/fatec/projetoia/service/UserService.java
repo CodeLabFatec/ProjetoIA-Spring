@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.projetoia.dtos.UserDTO;
@@ -39,6 +40,8 @@ public class UserService {
     private PaperRepository paperRepository;
     @Autowired
     private StringGenerator stringGenerator;
+    @Autowired
+    private PasswordEncoder encoder;
     @Autowired
     private EmailSender emailSender;
 
@@ -81,7 +84,7 @@ public class UserService {
         UserEntity entity = new UserEntity();
         entity.setEmail(data.getEmail());
         entity.setNome(data.getNome());
-        entity.setPassword(password); 
+        entity.setPassword(encoder.encode(password)); 
         entity.setPapel(paperEntity);       
         entity.setAreas(areas);
         entity.setRedzones(redzones);
@@ -184,7 +187,7 @@ public class UserService {
         if(newPassword == null || newPassword.equals("") || newPassword.equals(" ")) 
             throw new Exception("A senha não pode ser vazia.");
         
-        user.setPassword(newPassword);
+        user.setPassword(encoder.encode(newPassword));
 
         repo.save(user);
 

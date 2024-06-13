@@ -3,6 +3,7 @@ package br.gov.sp.fatec.projetoia.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import br.gov.sp.fatec.projetoia.entity.EntradaRedZoneEntity;
 import br.gov.sp.fatec.projetoia.responses.PeopleCountResponse;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/entrada-redzone")
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class EntradaRedZoneController {
 
     @Autowired

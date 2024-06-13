@@ -18,12 +18,12 @@ public class SegurancaService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity usuario = usuarioRepo.findByName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+        UserEntity usuario = usuarioRepo.findByEmail(username);
+        if(usuario == null) throw new UsernameNotFoundException("Usuário não encontrado!");
 
         return User.withUsername(username)
                 .password(usuario.getPassword())
-                .authorities(usuario.getPapel().getNome()) // Obtém diretamente o nome do papel
+                .authorities(usuario.getPapel().getId().toString())
                 .build();
     }
 }

@@ -2,19 +2,22 @@ package br.gov.sp.fatec.projetoia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import br.gov.sp.fatec.projetoia.dtos.RecoverPasswordDTO;
-import br.gov.sp.fatec.projetoia.dtos.UserLoginRequestDTO;
-import br.gov.sp.fatec.projetoia.dtos.UserLoginResponseDTO;
 import br.gov.sp.fatec.projetoia.entity.UserEntity;
 import br.gov.sp.fatec.projetoia.entity.UserPasswordTokenEntity;
-import br.gov.sp.fatec.projetoia.exception.AuthenticationException;
 import br.gov.sp.fatec.projetoia.repository.UserRepository;
-import br.gov.sp.fatec.projetoia.service.JwtService;
+import br.gov.sp.fatec.projetoia.security.JwtUtils;
+import br.gov.sp.fatec.projetoia.security.Login;
 import br.gov.sp.fatec.projetoia.service.UserService;
 
 @RestController
@@ -22,27 +25,23 @@ import br.gov.sp.fatec.projetoia.service.UserService;
 public class AuthController {
 
     @Autowired
-    private JwtService jwtService;
-
-    @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthenticationManager authManager;
+  
     @PostMapping("/login")
-    public UserLoginResponseDTO login(@RequestBody UserLoginRequestDTO userLoginRequest) {
-        UserEntity user = userRepository.findByEmailAndPassword(userLoginRequest.getEmail(), userLoginRequest.getPassword());
-        if (user != null) {
-            UserLoginResponseDTO response = new UserLoginResponseDTO();
-            response.setNome(user.getNome());
-            response.setEmail(user.getEmail());
-            response.setPapel(user.getPapel());
-            response.setToken(jwtService.generateToken(user.getEmail(), user.getNome(), user.getPapel().getNome()));
-            return response;
-        } else {
-            throw new AuthenticationException("Email ou senha inválidos");
-        }
+    public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
+      Authentication auth = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
+      auth = authManager.authenticate(auth);
+      login.setToken(JwtUtils.generateToken(auth));
+      login.setIdPapel(Long.parseLong(auth.getAuthorities().iterator().next().getAuthority()));
+      return login;
     }
+
     @PostMapping("/recover")
     public ResponseEntity<Void> recover(@RequestBody RecoverPasswordDTO dto){
         UserEntity user = userRepository.findByEmail(dto.getEmail());

@@ -17,30 +17,39 @@ import io.jsonwebtoken.security.Keys;
 
 public class JwtUtils {
 
-    private static final String KEY = "br.gov.sp.fatec.projetoia";
+    private static final String KEY = "br.gov.sp.fatec.projetoiasecuritytoken";
 
     public static String generateToken(Authentication usuario) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Login usuarioSemSenha = new Login();
-        usuarioSemSenha.setUsername(usuario.getName());
+        usuarioSemSenha.setEmail(usuario.getName());
         if (!usuario.getAuthorities().isEmpty()) {
-            usuarioSemSenha.setAuth(usuario.getAuthorities().iterator().next().getAuthority());
+            Long idPapel = Long.parseLong(usuario.getAuthorities().stream().toList().get(0).getAuthority());
+
+            usuarioSemSenha.setIdPapel(idPapel);
         }
         String usuarioJson = mapper.writeValueAsString(usuarioSemSenha);
         Date agora = new Date();
-        Long hora = 1000L * 60L * 60L; // Uma hora
-        return Jwts.builder().claim("userDetails", usuarioJson).setIssuer("br.gov.sp.fatec").setSubject(usuario.getName())
-            .setExpiration(new Date(agora.getTime() + hora)).signWith(Keys.hmacShaKeyFor(KEY.getBytes()), SignatureAlgorithm.HS256).compact();
+        Long hora = 1000L * 60L * 60L * 24; // Um dia
+        return Jwts.builder()
+            .claim("userDetails", usuarioJson)
+            .setIssuer("br.gov.sp.fatec")
+            .setSubject(usuario.getName())
+            .setExpiration(new Date(agora.getTime() + hora))
+            .signWith(Keys.hmacShaKeyFor(KEY.getBytes()), SignatureAlgorithm.HS256).compact();
     }
   
-    public static Authentication parseToken(String token) throws IOException, JsonProcessingException {
+    public static Authentication parseToken(String token)
+        throws IOException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        String credentialsJson = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(KEY.getBytes())).build()
+        String credentialsJson = Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(KEY.getBytes())).build()
             .parseClaimsJws(token).getBody().get("userDetails", String.class);
         Login usuario = mapper.readValue(credentialsJson, Login.class);
-        UserDetails userDetails = User.builder().username(usuario.getUsername()).password("secret")
-            .authorities(usuario.getAuth()).build();
-        return new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(),
+
+        UserDetails userDetails = User.builder().username(usuario.getEmail()).password("secret")
+            .authorities(usuario.getIdPapel().toString()).build();
+        return new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword(),
             userDetails.getAuthorities());
     }
 
