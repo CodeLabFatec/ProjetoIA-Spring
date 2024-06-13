@@ -83,6 +83,8 @@ public class UserService {
         entity.setNome(data.getNome());
         entity.setPassword(password); 
         entity.setPapel(paperEntity);       
+        entity.setAreas(areas);
+        entity.setRedzones(redzones);
 
         repo.save(entity);
 

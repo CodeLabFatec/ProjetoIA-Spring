@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.projetoia.dtos.RedZoneDTO;
 import br.gov.sp.fatec.projetoia.entity.RedZoneEntity;
+import br.gov.sp.fatec.projetoia.responses.SelectOptionsResponse;
 import br.gov.sp.fatec.projetoia.service.RedZoneService;
 
 @RestController
@@ -31,7 +32,10 @@ public class RedZoneController {
     public List<RedZoneEntity> getAll() {
         return serv.getAll();
     }
-
+    @GetMapping(value="/select") 
+    public List<SelectOptionsResponse> getAllAsSelect(){
+        return serv.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
+    }
     @PostMapping
     public RedZoneEntity insert(@RequestBody RedZoneDTO data) {
         return serv.insert(data);
