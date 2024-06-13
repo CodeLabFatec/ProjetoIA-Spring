@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,14 @@ import br.gov.sp.fatec.projetoia.service.RedZoneService;
 @RestController
 @RequestMapping(value = "/redzone")
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class RedZoneController {
 
     @Autowired
     private RedZoneService serv;
 
     @GetMapping
+    @PreAuthorize("hasRole('1')")
     public List<RedZoneEntity> getAll() {
         return serv.getAll();
     }
@@ -37,16 +40,19 @@ public class RedZoneController {
         return serv.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @PostMapping
+    @PreAuthorize("hasRole('1')")
     public RedZoneEntity insert(@RequestBody RedZoneDTO data) {
         return serv.insert(data);
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public Optional<RedZoneEntity> getById(@PathVariable("id") Long id) {
         return serv.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         Optional<RedZoneEntity> data = serv.getById(id);
         if (data.isEmpty()) {
@@ -59,6 +65,7 @@ public class RedZoneController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public RedZoneEntity update(@PathVariable("id") Long id, @RequestBody RedZoneDTO updatedEntity) {
         Optional<RedZoneEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
@@ -68,6 +75,7 @@ public class RedZoneController {
     }
 
     @PutMapping(value = "/activate/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> activateById(@PathVariable("id") Long id){
         Optional<RedZoneEntity> data = serv.getById(id);
         if (data.isEmpty()) {
