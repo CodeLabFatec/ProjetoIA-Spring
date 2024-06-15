@@ -36,7 +36,6 @@ public class UserController {
     private PaperRepository paperRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('1')")
     public List<UserEntity> getAll() {
         return userService.getAll();
     }
@@ -49,7 +48,6 @@ public class UserController {
         return paperRepository.findAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> getByid(@PathVariable("id") Long id){
         UserEntity user = userService.getById(id).orElse(null);
         if(user == null) return ResponseEntity.notFound().build();
@@ -58,7 +56,6 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         userService.delete(id);
 
@@ -66,7 +63,6 @@ public class UserController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> insert(@RequestBody UserDTO data){
         if(data == null) return ResponseEntity.badRequest().body(null);
 
@@ -76,7 +72,6 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('1')")
     public ResponseEntity<UserEntity> update(@PathVariable("id") Long id, @RequestBody UserDTO data){
         if(data == null) return ResponseEntity.badRequest().body(null);
 
