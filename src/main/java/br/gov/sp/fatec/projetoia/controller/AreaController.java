@@ -33,6 +33,7 @@ public class AreaController {
     private AreaService areaService;
 
     @GetMapping
+    @PreAuthorize("hasRole('1')")
     public List<AreaEntity> getAll() {
         return areaService.getAll();
     }
@@ -41,17 +42,20 @@ public class AreaController {
         return areaService.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @PostMapping
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<AreaEntity> insert(@RequestBody AreaEntity area) {
         AreaEntity createdArea = areaService.insert(area);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdArea);
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public Optional<AreaEntity> getById(@PathVariable("id") Long id) {
         return areaService.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         Optional<AreaEntity> data = areaService.getById(id);
         if (data.isEmpty()) {
@@ -62,6 +66,7 @@ public class AreaController {
     }
 
     @PutMapping(value = "/activate/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> activateById(@PathVariable("id") Long id){
         Optional<AreaEntity> data = areaService.getById(id);
         if (data.isEmpty()) {
@@ -72,6 +77,7 @@ public class AreaController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<AreaEntity> update(@PathVariable("id") Long id, @RequestBody AreaEntity updatedArea) {
         Optional<AreaEntity> existingArea = areaService.getById(id);
         if (existingArea.isEmpty()) {

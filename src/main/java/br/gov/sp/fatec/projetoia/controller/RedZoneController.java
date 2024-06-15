@@ -31,6 +31,7 @@ public class RedZoneController {
     private RedZoneService serv;
 
     @GetMapping
+    @PreAuthorize("hasRole('1')")
     public List<RedZoneEntity> getAll() {
         return serv.getAll();
     }
@@ -39,16 +40,19 @@ public class RedZoneController {
         return serv.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
     }
     @PostMapping
+    @PreAuthorize("hasRole('1')")
     public RedZoneEntity insert(@RequestBody RedZoneDTO data) {
         return serv.insert(data);
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public Optional<RedZoneEntity> getById(@PathVariable("id") Long id) {
         return serv.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         Optional<RedZoneEntity> data = serv.getById(id);
         if (data.isEmpty()) {
@@ -61,6 +65,7 @@ public class RedZoneController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('1')")
     public RedZoneEntity update(@PathVariable("id") Long id, @RequestBody RedZoneDTO updatedEntity) {
         Optional<RedZoneEntity> existingEntity = serv.getById(id);
         if (existingEntity.isEmpty()) {
@@ -70,6 +75,7 @@ public class RedZoneController {
     }
 
     @PutMapping(value = "/activate/{id}")
+    @PreAuthorize("hasRole('1')")
     public ResponseEntity<Void> activateById(@PathVariable("id") Long id){
         Optional<RedZoneEntity> data = serv.getById(id);
         if (data.isEmpty()) {
