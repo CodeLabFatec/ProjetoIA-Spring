@@ -16,6 +16,7 @@ import br.gov.sp.fatec.projetoia.dtos.RecoverPasswordDTO;
 import br.gov.sp.fatec.projetoia.entity.UserEntity;
 import br.gov.sp.fatec.projetoia.entity.UserPasswordTokenEntity;
 import br.gov.sp.fatec.projetoia.repository.UserRepository;
+import br.gov.sp.fatec.projetoia.responses.AuthResponse;
 import br.gov.sp.fatec.projetoia.security.JwtUtils;
 import br.gov.sp.fatec.projetoia.security.Login;
 import br.gov.sp.fatec.projetoia.service.UserService;
@@ -34,12 +35,16 @@ public class AuthController {
     private AuthenticationManager authManager;
   
     @PostMapping("/login")
-    public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
+    public AuthResponse autenticar(@RequestBody Login login) throws JsonProcessingException {
       Authentication auth = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
       auth = authManager.authenticate(auth);
       login.setToken(JwtUtils.generateToken(auth));
       login.setIdPapel(Long.parseLong(auth.getAuthorities().iterator().next().getAuthority()));
-      return login;
+
+      UserEntity user = userRepository.findByEmail(login.getEmail());
+      AuthResponse authResponse = new AuthResponse(user, login.getToken());
+
+      return authResponse;
     }
 
     @PostMapping("/recover")
