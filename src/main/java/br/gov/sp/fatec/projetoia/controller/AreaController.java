@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,13 @@ import org.springframework.http.HttpStatus;
 
 
 import br.gov.sp.fatec.projetoia.entity.AreaEntity;
+import br.gov.sp.fatec.projetoia.responses.SelectOptionsResponse;
 import br.gov.sp.fatec.projetoia.service.AreaService;
 
 @RestController
 @RequestMapping(value = "/area")
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class AreaController {
 
     @Autowired
@@ -33,7 +36,10 @@ public class AreaController {
     public List<AreaEntity> getAll() {
         return areaService.getAll();
     }
-
+    @GetMapping(value="/select") 
+    public List<SelectOptionsResponse> getAllAsSelect(){
+        return areaService.getAll().stream().map(r-> new SelectOptionsResponse(r)).toList();
+    }
     @PostMapping
     public ResponseEntity<AreaEntity> insert(@RequestBody AreaEntity area) {
         AreaEntity createdArea = areaService.insert(area);

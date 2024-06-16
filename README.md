@@ -13,11 +13,12 @@
 
 ## 🚀 Informações
 
-> **Projeto em desenvolvimento**
+> **Projeto finalizado**
 
 Esse repositório contém os programas desenvolvidos em Spring para o Projeto IA (Projeto integrador do grupo Codelab da FATEC de São José dos Campos). As outras partes que compõe esse projeto podem ser encontrados no repostório pai [clicando aqui](https://github.com/CodeLabFatec/ProjetoIA).
 
 <br />
+
 
 > Estratégia de branches e commits
 
@@ -25,7 +26,22 @@ As branches e commits desse projeto seguem o seguinte padrão estabelecido pelo 
 
 <br>
 
+
+> Usuário Administrador inicial
+
+Ao instalar a aplicação utilizando o passo-a-passo abaixo, para conseguir se autenticar e realizar os primeiros cadastros tanto via requests quanto pelo client (Aplicação disponível [clicando aqui](https://www.github.com/CodeLabFatec/ProjetoIA-Vue)) utilize as seguintes credenciais de um usuário administrador inicial:
+
+```plaintext
+Email: admin@admin.com
+Senha: admin
+```
+
+
+<br>
+
 > Instalação
+
+O arquivo DDL.sql contém um script para gerar todas as tabelas SQL necessárias para o ProjetoIA funcionar, execute-o antes de prosseguir.
 
 Para instalar e executar o projeto siga as instruções abaixo:
 
@@ -46,7 +62,7 @@ Para instalar e executar o projeto siga as instruções abaixo:
 
 4. Crie uma cópia do arquivo `.env.example` chamado `.env`:
     ```bash
-    cp .env.example .env
+    cp .env.example src/main/resources/.env
     ```
 
 5. Abra o arquivo `.env` e insira as URLs do servidor. Por exemplo:
