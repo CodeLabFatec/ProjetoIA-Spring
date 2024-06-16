@@ -13,15 +13,29 @@
 
 ## 🚀 Informações
 
-> **Projeto em desenvolvimento**
+> **Projeto finalizado**
 
 Esse repositório contém os programas desenvolvidos em Spring para o Projeto IA (Projeto integrador do grupo Codelab da FATEC de São José dos Campos). As outras partes que compõe esse projeto podem ser encontrados no repostório pai [clicando aqui](https://github.com/CodeLabFatec/ProjetoIA).
 
 <br />
 
+
 > Estratégia de branches e commits
 
 As branches e commits desse projeto seguem o seguinte padrão estabelecido pelo [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/) e com exemplos de utilização detalhados [neste repositório](https://github.com/iuricode/padroes-de-commits).
+
+<br>
+
+
+> Usuário Administrador inicial
+
+Ao instalar a aplicação utilizando o passo-a-passo abaixo, para conseguir se autenticar e realizar os primeiros cadastros tanto via requests quanto pelo client (Aplicação disponível [clicando aqui](https://www.github.com/CodeLabFatec/ProjetoIA-Vue)) utilize as seguintes credenciais de um usuário administrador inicial:
+
+```plaintext
+Email: admin@admin.com
+Senha: admin
+```
+
 
 <br>
 
